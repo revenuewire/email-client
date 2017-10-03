@@ -1,0 +1,25 @@
+{
+  "name": "revenuewire/email-client",
+  "type": "library",
+  "description": "Email Client Interface",
+  "homepage": "https://github.com/revenuewire/email-client",
+  "license": "Apache License 2.0",
+  "authors": [
+    {
+      "name": "Scott Wang",
+      "email": "swang@revenuewire.com"
+    }
+  ],
+  "autoload": {
+    "psr-4" : {
+      "RW\\" : "src/"
+    }
+  },
+  "require": {
+    "aws/aws-sdk-php": "^3.36"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5.5.0",
+    "php-coveralls/php-coveralls": "^1.0"
+  }
+}

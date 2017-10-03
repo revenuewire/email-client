@@ -1,0 +1,25 @@
+run
+supervise/
+*.iml
+.DS_Store
+*.swp
+*.iml
+*~
+nbproject
+.tags*
+sftp-config.json
+.idea
+npm-debug.log
+run
+supervise/
+node_modules
+/dist
+swagger-codegen-cli.jar
+vendor
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+build
+vendor
+spec

@@ -1,7 +1,7 @@
 {
   "name": "revenuewire/email-client",
   "type": "library",
-  "description": "Email Client Interface",
+  "description": "RW Email Client",
   "homepage": "https://github.com/revenuewire/email-client",
   "license": "Apache License 2.0",
   "authors": [
@@ -11,9 +11,7 @@
     }
   ],
   "autoload": {
-    "psr-4" : {
-      "RW\\" : "src/"
-    }
+    "psr-4": { "RW\\Email\\": ["src/"] }
   },
   "require": {
     "aws/aws-sdk-php": "^3.36"

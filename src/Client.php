@@ -8,6 +8,7 @@ class Client
     /** @var $client SqsClient */
     public static $client;
     public static $url;
+    public static $debug = false;
 
     /**
      * Config
@@ -130,11 +131,14 @@ class Client
      * Send SQS Message
      *
      * @param $message
-     *
      * @return \Aws\Result
      */
     public static function send($message)
     {
+        if (self::$debug === true) {
+            return $message;
+        }
+
         return self::$client->sendMessage([
             'MessageBody' => json_encode($message),
             'QueueUrl' => self::$url

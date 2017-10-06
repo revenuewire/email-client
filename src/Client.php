@@ -92,69 +92,21 @@ class Client
      * Send email by type
      *
      * @param $emailType
-     * @param $from
-     * @param $to
      * @param $data
-     * @param string $language
      * @return \Aws\Result
-     * @throws \Exception
+     * @internal param $from
+     * @internal param $to
+     * @internal param string $language
      */
-    public static function typeSend($emailType, $from, $to, $data, $language = "en")
+    public static function typeSend($emailType, $data)
     {
-        if (!empty($to)) {
-            foreach ($to as $recipient) {
-                if (empty($recipient['emailAddress']) || !filter_var($recipient['emailAddress'], FILTER_VALIDATE_EMAIL)) {
-                    throw new \Exception("The to email address is missing or invalid.");
-                }
-            }
-        }
-
-        if (!empty($from)) {
-            if (empty($from['emailAddress']) || !filter_var($from['emailAddress'], FILTER_VALIDATE_EMAIL)) {
-                throw new \Exception("The from email address is missing or invalid.");
-            }
-        }
-
         $message = [
             "method" => "TYPE",
             "type" => $emailType,
-            "lang" => $language,
-            "to" => $to,
-            "from" => $from,
             "data" => $data
         ];
 
         return self::send($message);
-    }
-
-    /**
-     * Send Support Contact US Email
-     *
-     * @param $email
-     * @param $name
-     * @param $subject
-     * @param $question
-     * @return \Aws\Result
-     * @throws \Exception
-     */
-    public static function sendSupportContactUsEmail($email, $name, $subject, $question)
-    {
-        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new \Exception("Invalid Email.");
-        }
-
-        foreach ([$name, $subject, $question] as $test) {
-            if (empty($test)) {
-                throw new \Exception("Missing required fields.");
-            }
-        }
-
-        return self::typeSend("SUPPORT_CONTACT_US", null, null, [
-            "subject" => $subject,
-            "name" => $name,
-            "email" => $email,
-            "question" => $question
-        ]);
     }
 
     /**

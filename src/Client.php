@@ -128,6 +128,36 @@ class Client
     }
 
     /**
+     * Send Support Contact US Email
+     *
+     * @param $email
+     * @param $name
+     * @param $subject
+     * @param $question
+     * @return \Aws\Result
+     * @throws \Exception
+     */
+    public static function sendSupportContactUsEmail($email, $name, $subject, $question)
+    {
+        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new \Exception("Invalid Email.");
+        }
+
+        foreach ([$name, $subject, $question] as $test) {
+            if (empty($test)) {
+                throw new \Exception("Missing required fields.");
+            }
+        }
+
+        return self::typeSend("SUPPORT_CONTACT_US", null, null, [
+            "subject" => $subject,
+            "name" => $name,
+            "email" => $email,
+            "question" => $question
+        ]);
+    }
+
+    /**
      * Send SQS Message
      *
      * @param $message

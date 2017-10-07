@@ -31,92 +31,21 @@ class Client
     }
 
     /**
-     * Direct Send Email
-     *
-     * @param $templateId
-     * @param $from
-     * @param $to
-     * @param $data
-     * @param string $language
-     * @param array $replyTo
-     * @param array $cc
-     * @param array $bcc
-     *
-     * @return \Aws\Result
-     * @throws \Exception
-     */
-    public static function directSend($templateId, $from, $to, $data, $language = "en", $replyTo = [], $cc = [], $bcc = [])
-    {
-        if (empty($templateId)) {
-            throw new \Exception("Template Id is required.");
-        }
-
-        if (empty($language)) {
-            throw new \Exception("Language Id is required.");
-        }
-
-        if (empty($from['emailAddress']) || !filter_var($from['emailAddress'], FILTER_VALIDATE_EMAIL)) {
-            throw new \Exception("The from email address is missing or invalid.");
-        }
-
-        foreach ($to as $recipient) {
-            if (empty($recipient['emailAddress']) || !filter_var($recipient['emailAddress'], FILTER_VALIDATE_EMAIL)) {
-                throw new \Exception("The to email address is missing or invalid.");
-            }
-        }
-
-        foreach (array($replyTo, $cc, $bcc) as $mailer) {
-            if (!empty($mailer)) {
-                foreach ($mailer as $mailee) {
-                    if (empty($mailee['emailAddress']) || !filter_var($mailee['emailAddress'], FILTER_VALIDATE_EMAIL)) {
-                        throw new \Exception("The email address is missing or invalid.");
-                    }
-                }
-            }
-        }
-
-        $message = [
-            "method" => "DIRECT",
-            "templateId" => $templateId,
-            "lang" => $language,
-            "from" => $from,
-            "to" => $to,
-            "data" => $data
-        ];
-
-        return self::send($message);
-    }
-
-
-    /**
-     * Send email by type
-     *
-     * @param $emailType
-     * @param $data
-     * @return \Aws\Result
-     * @internal param $from
-     * @internal param $to
-     * @internal param string $language
-     */
-    public static function typeSend($emailType, $data)
-    {
-        $message = [
-            "method" => "TYPE",
-            "type" => $emailType,
-            "data" => $data
-        ];
-
-        return self::send($message);
-    }
-
-    /**
      * Send SQS Message
      *
-     * @param $message
+     * @param $data
+     * @param string $type
      * @return \Aws\Result
+     * @internal param $message
      */
-    public static function send($message)
+    public static function send($data, $type = "DIRECT")
     {
+        $message = [
+            "Type" => "EmailClient",
+            "Subject" => $type,
+            "Message" => base64_encode(json_encode($data))
+        ];
+
         if (self::$debug === true) {
             return $message;
         }

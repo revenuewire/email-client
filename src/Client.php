@@ -38,7 +38,7 @@ class Client
      * @return \Aws\Result
      * @internal param $message
      */
-    public static function send($data, $type = "DIRECT")
+    public static function send($data, $type = "GENERIC")
     {
         $message = [
             "Type" => "EmailClient",
